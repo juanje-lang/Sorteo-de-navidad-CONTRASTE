@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteo Cesta de Baile Romántica - José Contraste</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font (Inter) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Efecto de "pulso" para el CTA principal */
+        .cta-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: .9;
+                transform: scale(1.05);
+            }
+        }
+        /* Estilos para el modal */
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        .modal-content {
+            transition: transform 0.25s ease;
+            /* background-color: #ffffff; */ /* <-- Esta regla general no era lo suficientemente específica y se elimina */
+        }
+        /* CORRECCIÓN: Se elimina la regla !important; el problema no era el color, sino la opacidad. */
+        /* #payment-modal .modal-content,
+        #legal-modal .modal-content {
+            background-color: #ffffff !important;
+        } */
+        /* Estilos para el texto legal (NUEVO) */
+        .prose {
+            line-height: 1.6;
+            color: #334155; /* text-slate-700 */
+        }
+        .prose h2 {
+            font-size: 1.5rem; /* 24px */
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1E293B; /* text-slate-900 */
+        }
+        .prose h3 {
+            font-size: 1.125rem; /* 18px */
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #1E293B; /* text-slate-900 */
+        }
+        .prose p, .prose ul {
+            margin-bottom: 1rem;
+        }
+        .prose ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+        }
+        .prose li {
+            margin-bottom: 0.25rem;
+        }
+        .prose strong {
+            font-weight: 700;
+            color: #1E293B; /* text-slate-900 */
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-900">
+
+    <!-- ===== SECCIÓN 1: HERO (ATENCIÓN) ===== -->
+    <!-- Objetivo: Captar la atención con la oferta y la escasez extrema. -->
+    <header class="relative bg-gray-900 text-white overflow-hidden">
+        <div class="absolute inset-0">
+            <!-- Imagen de fondo de Cesta Navideña de alta calidad -->
+            <img src="https://images.pexels.com/photos/1303098/pexels-photo-1303098.jpeg" 
+                 alt="Regalos de Navidad" 
+                 class="w-full h-full object-cover"
+                 onerror="this.onerror=null;this.src='https://placehold.co/1920x1080/1E293B/FFFFFF?text=Cesta+Navide%C3%B1a+Rom%C3%A1ntica';this.alt='Placeholder Cesta Romántica';">
+            <!-- Overlay más oscuro para mejorar contraste del texto -->
+            <div class="absolute inset-0 bg-gray-900 opacity-70" aria-hidden="true"></div>
+        </div>
+        
+        <!-- MODIFICADO: Se elimina la clase 'z-10' para evitar conflictos de apilamiento con los modales -->
+        <div class="relative max-w-5xl mx-auto px-6 py-24 sm:py-32 text-center">
+            <h3 class="text-base font-semibold tracking-wider text-amber-400 uppercase">
+                Un sorteo exclusivo
+            </h3>
+            <h1 class="mt-4 text-4xl sm:text-6xl font-extrabold tracking-tight text-white shadow-lg">
+                Gana la Cesta de Baile más Romántica del Año
+            </h1>
+            <p class="mt-6 text-xl text-slate-200 max-w-2xl mx-auto">
+                Una escapada a Roma, clases privadas, ropa, zapatos y una cena... 
+                ¡Un San Valentín inolvidable puede ser tuyo!
+            </p>
+            
+            <!-- CTA Principal (Acción) -->
+            <div class="mt-10">
+                <!-- MODIFICADO: Este botón ahora abre el modal de pago -->
+                <button type="button" id="openModalBtnHero" class="cta-pulse inline-block bg-amber-500 text-gray-900 text-xl font-bold px-10 py-4 rounded-lg shadow-xl hover:bg-amber-400 transition duration-300">
+                    ¡Pedir por 10€!
+                </button>
+            </div>
+
+            <!-- Gancho de Escasez (El más importante) -->
+            <div class="mt-8 text-2xl font-bold bg-red-600 text-white py-3 px-6 rounded-lg inline-block shadow-lg">
+                ¡EDICIÓN LIMITADA: SOLO 1000 PARTICIPACIONES!
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== SECCIÓN 2: INTERÉS (QUÉ INCLUYE) ===== -->
+    <!-- Objetivo: "Apilar" el valor. Mostrar el desglose de los 997€. -->
+    <section class="py-20 sm:py-28 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900">
+                    Todo lo que te llevas en esta cesta
+                </h2>
+                <p class="mt-4 text-lg text-gray-600">
+                    Un premio valorado en más de <span class="font-bold text-gray-900">997€</span>, 
+                    diseñado para reconectar y llevar vuestro baile al siguiente nivel.
+                </p>
+            </div>
+
+            <!-- Grid de Premios -->
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                
+                <!-- Premio 1: Roma (El gancho principal) -->
+                <div class="bg-slate-50 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl">
+                    <img src="https://images.pexels.com/photos/56886/vittorio-emanuele-monument-rome-rome-palace-altare-della-patria-56886.jpeg" alt="Monumento en Roma" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/E2E8F0/334155?text=Escapada+a+Roma';this.alt='Placeholder Roma';">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-red-700">1. Escapada Romántica a Roma</h3>
+                        <p class="mt-3 text-gray-600">
+                            El San Valentín que siempre habéis soñado. Incluye 
+                            <span class="font-semibold">vuelos y hotel para 2 personas</span> 
+                            (del 13 al 15 de febrero).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Premio 2: Clases Privadas (RESTAURADO) -->
+                <div class="bg-slate-50 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl">
+                    <img src="https://images.pexels.com/photos/2188012/pexels-photo-2188012.jpeg" alt="Pareja bailando" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/E2E8F0/334155?text=Clase+Privada+de+Baile';this.alt='Placeholder Clase de Baile';">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-red-700">2. Clases Privadas (2h)</h3>
+                        <p class="mt-3 text-gray-600">
+                            Corregid vuestra técnica y conectad como nunca con 
+                            <span class="font-semibold">2 horas de clase privada</span> 
+                            solo para vosotros.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Premio 3: Material (Zapatos y Ropa) (RESTAURADO) -->
+                <div class="bg-slate-50 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl">
+                    <img src="https://images.pexels.com/photos/8281148/pexels-photo-8281148.jpeg" alt="Zapatos de baile" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/E2E8F0/334155?text=Zapatos+y+Ropa+de+Baile';this.alt='Placeholder Ropa de baile';">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-red-700">3. Zapatos y Ropa de Baile</h3>
+                        <p class="mt-3 text-gray-600">
+                            Equipaos para brillar en la pista. Un conjunto completo de 
+                            <span class="font-semibold">zapatos y ropa nuevos</span> 
+                            para estar perfectos.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Premio 4: Intensivo (RESTAURADO) -->
+                <div class="bg-slate-50 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl">
+                    <img src="https://images.pexels.com/photos/3869580/pexels-photo-3869580.jpeg" alt="Grupo de baile en intensivo" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='httpsS://placehold.co/600x400/E2E8F0/334155?text=Intensivo+de+Baile';this.alt='Placeholder Intensivo de baile';">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-red-700">4. Intensivo de 2h a Elegir</h3>
+                        <p class="mt-3 text-gray-600">
+                            Perfeccionad vuestro estilo favorito o aprended uno nuevo. 
+                            Vosotros <span class="font-semibold">elegís el intensivo</span> que más os guste.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Premio 5: Cena Romántica (RESTAURADO) -->
+                <div class="bg-slate-50 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl">
+                    <img src="https://images.pexels.com/photos/2145/sea-sunset-beach-couple.jpg" alt="Pareja en la playa al atardecer" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='httpsS://placehold.co/600x400/E2E8F0/334155?text=Cena+Rom%C3%A1ntica';this.alt='Placeholder Cena';">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-red-700">5. Cena Romántica</h3>
+                        <p class="mt-3 text-gray-600">
+                            El broche de oro. Una <span class="font-semibold">cena inolvidable</span> 
+                            para dos en un restaurante con encanto.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Premio 6: Taller Gratuito (BONUS) - REEMPLAZADO POR CTA -->
+                <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl flex items-center justify-center p-6 min-h-[250px]">
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold text-amber-400 mb-6">¿Te lo vas a perder?</h3>
+                        <button type="button" id="openModalBtnGridCTA" class="cta-pulse inline-block bg-amber-500 text-gray-900 text-lg font-bold px-8 py-3 rounded-lg shadow-xl hover:bg-amber-400 transition duration-300">
+                            ¡Comprar ahora por 10€!
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SECCIÓN 3: DESEO (EL "POR QUÉ" Y LA ESCASEZ) ===== -->
+    <!-- Objetivo: Convertir el "interés" en "deseo" usando la escasez como motor. -->
+    <section id="comprar" class="py-20 sm:py-28 bg-gray-900 text-white">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-amber-400">
+                ¡Date prisa! Las participaciones se agotan
+            </h2>
+            <p class="mt-4 text-lg text-slate-200 max-w-xl mx-auto">
+                Solo hay 1000 números disponibles. ¡No te quedes sin la oportunidad de vivir este San Valentín único!
+            </p>
+
+            <!-- Barra de Progreso de Escasez (Eliminada) -->
+            
+            <!-- CTA Secundario -->
+            <div class="mt-12">
+                <button type="button" id="openModalBtnProgress" class="cta-pulse inline-block bg-amber-500 text-gray-900 text-xl font-bold px-10 py-4 rounded-lg shadow-xl hover:bg-amber-400 transition duration-300">
+                    ¡Comprar mi participación por 10€!
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== SECCIÓN 4: AUTORIDAD Y PRUEBA SOCIAL ===== -->
+    <!-- Objetivo: Generar confianza. ¿Quién es José Contraste? -->
+    <section class="py-20 sm:py-28 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900">
+                    Organizado por una figura de confianza
+                </h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+                    José Contraste no es solo un profesor; es un mentor para cientos de bailarines. 
+                    Esta cesta es su forma de agradecer la confianza y celebrar el baile.
+                </p>
+            </div>
+
+            <!-- Testimonios (Placeholder) -->
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-slate-50 p-6 rounded-lg shadow-md">
+                    <p class="text-gray-700 italic">
+                        "Las clases de José me cambiaron la forma de sentir el baile. 
+                        Su energía es única. ¡Totalmente recomendado!"
+                    </p>
+                    <p class="mt-4 font-bold text-gray-900">- Silvia, Alumna</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-lg shadow-md">
+                    <p class="text-gray-700 italic">
+                        "Pensé que tenía dos pies izquierdos hasta que empecé con Contraste. 
+                        Un profesional increíble y un sorteo espectacular."
+                    </p>
+                    <p class="mt-4 font-bold text-gray-900">- Juanje, Alumno</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-lg shadow-md">
+                    <p class="mt-4 text-gray-700 italic">
+                        "Conocí a mis amigos gracias a la academia. 
+                        Esta cesta romántica es la definición perfecta de lo que José crea: conexiones."
+                    </p>
+                    <p class="mt-4 font-bold text-gray-900">- Pilar, Alumna</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- ===== SECCIÓN 5: CÓMO FUNCIONA Y FAQ ===== -->
+    <!-- Objetivo: Resolver objeciones y explicar la mecánica. -->
+    <section class="py-20 sm:py-28 bg-slate-100">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900">
+                    ¿Cómo funciona el sorteo?
+                </h2>
+            </div>
+            
+            <div class="mt-12 max-w-2xl mx-auto space-y-4">
+                <div class="bg-white p-5 rounded-lg shadow">
+                    <h3 class="text-lg font-bold text-red-700">¿Cuándo se celebra?</h3>
+                    <p class="mt-2 text-gray-600">
+                        La participación ganadora será aquella cuyas 
+                        <span class="font-bold">tres últimas cifras (del 000 al 999)</span> 
+                        coincidan con el número ganador del 
+                        <span class="font-bold">Sorteo de loteria del niño</span>.
+                    </p>
+                </div>
+                <div class="bg-white p-5 rounded-lg shadow">
+                    <h3 class="text-lg font-bold text-red-700">¿Cómo elijo mi número?</h3>
+                    <p class="mt-2 text-gray-600">
+                        ¡Es una rifa! Al comprar tu participación, se te asignará un número 
+                        <span class="font-bold">automáticamente del 000 al 999</span>. 
+                        Solo hay 1000 números, ¡uno por cada participación!
+                    </p>
+                </div>
+                <div class="bg-white p-5 rounded-lg shadow">
+                    <h3 class="text-lg font-bold text-red-700">¿Qué pasa si compro más de una?</h3>
+                    <p class="mt-2 text-gray-600">
+                        ¡Multiplicas tus posibilidades de ganar! Si compras 3 participaciones, 
+                        se te asignarán 3 números diferentes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SECCIÓN 6: CTA FINAL (ACCIÓN) ===== -->
+    <!-- Objetivo: El último empujón. -->
+    <footer class="bg-gray-900 pt-20 pb-10 text-center text-white">
+        <div class="max-w-3xl mx-auto px-6">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+                El San Valentín de tus sueños está a 10€ de distancia
+            </h2>
+            <p class="mt-4 text-xl text-slate-200">
+                Recuerda: Solo hay 1000 participaciones. Cuando se acaben, se acabó.
+            </p>
+
+            <div class="mt-10">
+                <button type="button" id="openModalBtnFooter" class="cta-pulse inline-block bg-amber-500 text-gray-900 text-xl font-bold px-10 py-4 rounded-lg shadow-xl hover:bg-amber-400 transition duration-300">
+                    ¡Pedir mi número por 10€!
+                </button>
+            </div>
+        </div>
+        <div class="mt-16 border-t border-gray-800 pt-8">
+            <div class="flex justify-center items-center text-sm text-gray-400">
+                <!-- Este botón abrirá el modal con toda la info legal -->
+                <button type="button" id="openBasesLegales" class="hover:text-amber-400 transition">Bases Legales, Privacidad y Cookies</button>
+            </div>
+            <p class="text-sm text-gray-500 mt-4">&copy; 2025 Academia de Baile José Contraste. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+
+    <!-- ===== MODAL DE PAGO (EMBUDO DE CONVERSIÓN) ===== -->
+    <div id="payment-modal" class="modal fixed inset-0 z-60 flex items-center justify-center bg-black bg-opacity-75 p-6 opacity-0 pointer-events-none">
+        <!-- CORRECCIÓN: Se re-añade 'bg-white' de Tailwind para asegurar el fondo opaco -->
+        <div class="modal-content bg-white w-full max-w-lg rounded-xl shadow-2xl p-8 transform scale-95">
+            <!-- Botón de Cerrar -->
+            <button id="closeModalBtn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <h2 class="text-2xl font-bold text-gray-900 text-center">¡Casi es tuya!</h2>
+            <p class="text-center text-gray-600 mt-2">Estás a un paso de conseguir tu participación.</p>
+
+            <div class="mt-6">
+                <label for="participaciones" class="block text-sm font-medium text-gray-700">¿Cuántas participaciones quieres? (10€/ud)</label>
+                <div class="mt-1 flex rounded-md shadow-sm">
+                    <button id="decrement" type="button" class="relative inline-flex items-center space-x-2 rounded-l-md border border-gray-300 bg-gray-50 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">-</button>
+                    <input type="text" id="participaciones" name="participaciones" value="1" class="block w-full flex-1 border-gray-300 border-y text-center text-lg font-bold focus:border-amber-500 focus:ring-amber-500" readonly>
+                    <button id="increment" type="button" class="relative -ml-px inline-flex items-center space-x-2 rounded-r-md border border-gray-300 bg-gray-50 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">+</button>
+                </div>
+            </div>
+
+            <div class="mt-6 bg-slate-50 rounded-lg p-4">
+                <div class="flex justify-between items-center text-lg">
+                    <span class="text-gray-600">Total a pagar:</span>
+                    <span id="total-price" class="text-2xl font-extrabold text-gray-900">10€</span>
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <!-- Este enlace de WA es un placeholder. Lo ideal sería un Bizum o pasarela de pago real. -->
+                <a id="whatsapp-link" href="https://wa.me/34617278001?text=Hola%20Jos%C3%A9%2C%20quiero%20comprar%201%20participaci%C3%B3n%20para%20la%20Cesta%20Rom%C3%A1ntica.%20Total%3A%2010%E2%82%AC" target="_blank" class="w-full flex justify-center bg-green-500 text-white text-lg font-bold px-6 py-4 rounded-lg shadow-lg hover:bg-green-600 transition duration-300">
+                    Pagar por WhatsApp / Bizum
+                </a>
+                <p class="text-xs text-gray-500 mt-3 text-center">Serás redirigido a WhatsApp para completar el pedido de forma segura con José.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ===== MODAL DE BASES LEGALES (NUEVO HTML) ===== -->
+    <div id="legal-modal" class="modal fixed inset-0 z-60 flex items-center justify-center bg-black bg-opacity-75 p-6 opacity-0 pointer-events-none">
+        <!-- CORRECCIÓN: Se re-añade 'bg-white' de Tailwind para asegurar el fondo opaco -->
+        <div class="modal-content bg-white w-full max-w-3xl rounded-xl shadow-2xl transform scale-95 max-h-[80vh] overflow-y-auto">
+            <!-- Contenido del modal legal -->
+            <div class="p-8 sm:p-10 relative">
+                <!-- Botón de Cerrar -->
+                <button id="closeLegalModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                
+                <!-- Contenido de texto legal con estilos 'prose' -->
+                <div class="prose max-w-none">
+                    <h2 class="text-xl font-bold text-gray-900">TÉRMINOS LEGALES DEL SORTEO</h2>
+                    <p>La participación en este sorteo es voluntaria, gratuita e implica la aceptación íntegra de las condiciones, mecánica, fechas y premio descritos en esta página.</p>
+                    
+                    <h3 class="font-bold mt-4">Organizador:</h3>
+                    <p>José Contraste ([Email de Contacto de José Contraste]).</p>
+                    
+                    <h3 class="font-bold mt-4">Premio:</h3>
+                    <p>El premio descrito no es transferible ni canjeable por su valor en metálico.</p>
+                    
+                    <h3 class="font-bold mt-4">Protección de Datos (RGPD):</h3>
+                    <ul class="list-disc pl-5">
+                        <li><strong>Responsable:</strong> José Contraste.</li>
+                        <li><strong>Finalidad:</strong> Gestionar su participación, la selección del ganador y la entrega del premio.</li>
+                        <li><strong>Legitimación:</strong> Su consentimiento explícito al participar.</li>
+                        <li><strong>Conservación:</strong> Los datos se eliminarán una vez finalizado el sorteo y entregado el premio.</li>
+                        <li><strong>Derechos:</strong> Puede ejercer sus derechos de acceso, rectificación o supresión contactando a [Email de Contraste].</li>
+                    </ul>
+                    
+                    <h3 class="font-bold mt-4">Ley Aplicable:</h3>
+                    <p>Estas bases se rigen por la ley española. El organizador se reserva el derecho de descalificar participaciones fraudulentas.</p>
+
+                    <!-- ===== INICIO DE SECCIÓN DE PRIVACIDAD AÑADIDA ===== -->
+                    <h2 class="text-xl font-bold text-gray-900 mt-10">POLÍTICA DE PRIVACIDAD</h2>
+                    <p class="text-sm italic">Última actualización: 30 de octubre de 2025</p>
+
+                    <h3 class="font-bold mt-4">1. RESPONSABLE DEL TRATAMIENTO</h3>
+                    <p>El responsable del tratamiento de los datos recabados en este sitio web es:</p>
+                    <ul class="list-disc pl-5">
+                        <li>Identidad: Contraste</li>
+                    </ul>
+                    <p>Para los datos específicos recabados con motivo del sorteo, el responsable es José Contraste.</p>
+
+                    <h3 class="font-bold mt-4">2. FINALIDAD DEL TRATAMIENTO</h3>
+                    <p>Tratamos los datos que nos facilita con las siguientes finalidades:</p>
+                    <ul class="list-disc pl-5">
+                        <li><strong>Gestión del Sorteo:</strong> Gestionar la participación, selección del ganador y entrega del premio, tal y como se describe en las Bases Legales del mismo.</li>
+                        <li><strong>Atención de Consultas:</strong> Atender las solicitudes de información, dudas o consultas recibidas a través de nuestro email de contacto.</li>
+                    </ul>
+                    <p>Este sitio web NO recaba datos a través de formularios de newsletter ni de registro.</p>
+
+                    <h3 class="font-bold mt-4">3. LEGITIMACIÓN</h3>
+                    <p>La base legal para el tratamiento de sus datos varía según la finalidad:</p>
+                    <ul class="list-disc pl-5">
+                        <li><strong>Gestión del Sorteo:</strong> El consentimiento del interesado (Art. 6.1.a RGPD) al participar voluntariamente.</li>
+                        <li><strong>Atención de Consultas:</strong> Su consentimiento al enviarnos un email, o el interés legítimo en atender su solicitud (Art. 6.1.a y 6.1.f RGPD).</li>
+                    </ul>
+
+                    <h3 class="font-bold mt-4">4. CONSERVACIÓN DE LOS DATOS</h3>
+                    <ul class="list-disc pl-5">
+                        <li><strong>Datos del Sorteo:</strong> Los datos de los participantes se podrán conservar para nuevos eventos futuros siempre en favor del ususario, tras la finalización del sorteo y la entrega del premio.</li>
+                    </ul>
+
+                    <h3 class="font-bold mt-4">5. DESTINATARIOS</h3>
+                    <p>No cederemos sus datos personales a terceros, salvo obligación legal expresa.</p>
+
+                    <h3 class="font-bold mt-4">6. DERECHOS</h3>
+                    <p>Le informamos que puede ejercer sus derechos de acceso, rectificación, supresión, oposición y limitación del tratamiento enviando un correo electrónico a [Email de Contacto General o el de José Contraste, según corresponda], adjuntando copia de su DNI.</p>
+                    <!-- ===== FIN DE SECCIÓN DE PRIVACIDAD AÑADIDA ===== -->
+
+
+                    <!-- ===== INICIO DE SECCIÓN DE COOKIES AÑADIDA ===== -->
+                    <h2 class="text-xl font-bold text-gray-900 mt-10">POLÍTICA DE COOKIES</h2>
+                    
+                    <h3 class="font-bold mt-4">1. ¿QUÉ SON LAS COOKIES?</h3>
+                    <p>Una cookie es un pequeño fichero que se descarga en su equipo al acceder a determinadas páginas web. Las cookies permiten a una web, entre otras cosas, almacenar y recuperar información sobre los hábitos de navegación de un usuario.</p>
+                    
+                    <h3 class="font-bold mt-4">2. ¿QUÉ COOKIES UTILIZA ESTA WEB?</h3>
+                    <p>Este sitio web utiliza cookies de terceros. Al cargar contenido (como imágenes) alojado en servidores externos, dichos servidores pueden instalar sus propias cookies en su navegador.</p>
+                    <ul class="list-disc pl-5">
+                        <li><strong>Cookies de Terceros:</strong> Son cookies instaladas por los dominios de los que se enlaza el contenido. No controlamos estas cookies. Pueden ser técnicas (para servir la imagen) o de seguimiento/publicidad (para rastrear su navegación). Le recomendamos revisar las políticas de cookies de dichos terceros para más información.</li>
+                    </ul>
+                    <p class_city="text-sm italic">[Debe listar aquí los dominios de terceros de los que carga imágenes, p.ej.: "Imágenes de google.com", "Imágenes de flickr.com", etc.]</p>
+                    
+                    <h3 class="font-bold mt-4">3. CONSENTIMIENTO Y REVOCACIÓN</h3>
+                    <p>Al entrar en nuestra web, le mostramos un aviso. Salvo las cookies técnicas esenciales (que pueden instalar los terceros para servir el contenido), no se instalarán otras cookies hasta que usted pulse "Aceptar" o configure sus preferencias.</p>
+                    <p>Puede retirar su consentimiento en cualquier momento o modificar sus preferencias accediendo a nuestro [Enlace al Panel de Configuración de Cookies].</p>
+                    
+                    <h3 class="font-bold mt-4">4. ¿CÓMO BLOQUEAR O ELIMINAR LAS COOKIES?</h3>
+                    <p>Usted puede permitir, bloquear o eliminar las cookies instaladas en su equipo mediante la configuración de las opciones de su navegador.</p>
+                    <!-- ===== FIN DE SECCIÓN DE COOKIES AÑADIDA ===== -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ===== FIN MODAL BASES LEGALES ===== -->
+
+
+    <!-- ===== SOBRECAPA DEL COOKIE WALL (NUEVO) ===== -->
+    <!-- Esta capa bloqueará los clics en la página hasta que se acepten las cookies -->
+    <div id="cookie-wall-overlay" class="fixed inset-0 bg-black bg-opacity-70 z-40 hidden transition-opacity duration-300"></div>
+    <!-- ===== FIN DE LA SOBRECAPA ===== -->
+
+
+    <!-- ===== BANNER DE COOKIES (CÓDIGO HTML RESTAURADO) ===== -->
+    <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-700 text-slate-200 p-6 shadow-2xl z-50 hidden transition-opacity duration-300">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-sm text-center sm:text-left">
+                Utilizamos cookies técnicas esenciales para el funcionamiento de esta web. Al continuar navegando, aceptas su uso. 
+                Puedes consultar más información en nuestros <button type="button" id="openLegalFromBanner" class="font-bold underline hover:text-amber-400 transition-colors">Términos Legales, Privacidad y Cookies</button>.
+            </p>
+            <button id="acceptCookiesBtn" class="bg-amber-500 text-gray-900 font-bold px-6 py-2 rounded-lg hover:bg-amber-400 transition duration-300 flex-shrink-0">
+                Aceptar
+            </button>
+        </div>
+    </div>
+    <!-- ===== FIN DEL BANNER DE COOKIES ===== -->
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- LÓGICA DE LA BARRA DE ESCASEZ (ELIMINADA) ---
+            
+            // --- LÓGICA DEL MODAL DE PAGO ---
+            const modal = document.getElementById('payment-modal');
+            const openModalBtns = [
+                document.getElementById('openModalBtnHero'),
+                document.getElementById('openModalBtnProgress'),
+                document.getElementById('openModalBtnFooter'),
+                document.getElementById('openModalBtnGridCTA') // <-- Botón añadido
+            ];
+            const closeModalBtn = document.getElementById('closeModalBtn');
+
+            const participacionesInput = document.getElementById('participaciones');
+            const decrementBtn = document.getElementById('decrement');
+            const incrementBtn = document.getElementById('increment');
+            const totalPriceEl = document.getElementById('total-price');
+            const whatsappLink = document.getElementById('whatsapp-link');
+            const precioPorParticipacion = 10;
+            const numeroWhatsapp = '34617278001'; // Número de teléfono
+
+            const openModal = () => {
+                if (modal) {
+                    modal.classList.remove('opacity-0', 'pointer-events-none');
+                    modal.classList.add('opacity-100'); // <-- MODIFICACIÓN: Forzar opacidad 100%
+                    modal.querySelector('.modal-content').classList.remove('scale-95');
+                }
+            };
+
+            const closeModal = () => {
+                if (modal) {
+                    modal.classList.add('opacity-0', 'pointer-events-none');
+                    modal.classList.remove('opacity-100'); // <-- MODIFICACIÓN: Quitar opacidad 100%
+                    modal.querySelector('.modal-content').classList.add('scale-95');
+                }
+            };
+
+            openModalBtns.forEach(btn => {
+                if (btn) {
+                    btn.addEventListener('click', openModal);
+                }
+            });
+
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', closeModal);
+            }
+
+            // Cerrar modal al hacer clic fuera del contenido
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                });
+            }
+            
+            // --- LÓGICA DEL CONTADOR DEL MODAL ---
+            const actualizarPrecio = () => {
+                let cantidad = parseInt(participacionesInput.value);
+                if (isNaN(cantidad) || cantidad < 1) {
+                    cantidad = 1;
+                    participacionesInput.value = '1';
+                }
+                
+                const total = cantidad * precioPorParticipacion;
+                totalPriceEl.textContent = `${total}€`;
+                
+                // Actualizar enlace de WhatsApp
+                const textoWA = `Hola José, quiero comprar ${cantidad} participaci${cantidad > 1 ? 'ones' : 'ón'} para la Cesta Romántica. Total: ${total}€`;
+                whatsappLink.href = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(textoWA)}`;
+            };
+
+            if (incrementBtn) {
+                incrementBtn.addEventListener('click', () => {
+                    let cantidad = parseInt(participacionesInput.value);
+                    cantidad++;
+                    participacionesInput.value = cantidad;
+                    actualizarPrecio();
+                });
+            }
+
+            if (decrementBtn) {
+                decrementBtn.addEventListener('click', () => {
+                    let cantidad = parseInt(participacionesInput.value);
+                    if (cantidad > 1) {
+                        cantidad--;
+                        participacionesInput.value = cantidad;
+                        actualizarPrecio();
+                    }
+                });
+            }
+
+            // --- LÓGICA DEL MODAL DE BASES LEGALES (NUEVO) ---
+            const legalModal = document.getElementById('legal-modal');
+            const openLegalModalBtn = document.getElementById('openBasesLegales');
+            const closeLegalModalBtn = document.getElementById('closeLegalModal');
+
+            const openLegalModal = () => {
+                if (legalModal) {
+                    legalModal.classList.remove('opacity-0', 'pointer-events-none');
+                    legalModal.classList.add('opacity-100'); // <-- MODIFICACIÓN: Forzar opacidad 100%
+                    legalModal.querySelector('.modal-content').classList.remove('scale-95');
+                }
+            };
+
+            const closeLegalModal = () => {
+                if (legalModal) {
+                    legalModal.classList.add('opacity-0', 'pointer-events-none');
+                    legalModal.classList.remove('opacity-100'); // <-- MODIFICACIÓN: Quitar opacidad 100%
+                    legalModal.querySelector('.modal-content').classList.add('scale-95');
+                }
+            };
+
+            if (openLegalModalBtn) {
+                openLegalModalBtn.addEventListener('click', openLegalModal);
+            }
+            if (closeLegalModalBtn) {
+                closeLegalModalBtn.addEventListener('click', closeLegalModal);
+            }
+            // Cerrar modal legal al hacer clic fuera del contenido
+            if (legalModal) {
+                legalModal.addEventListener('click', (e) => {
+                    if (e.target === legalModal) {
+                        closeLegalModal();
+                    }
+                });
+            }
+
+            // --- LÓGICA DEL BANNER DE COOKIES (NUEVO) ---
+            const cookieBanner = document.getElementById('cookie-banner');
+            const acceptCookiesBtn = document.getElementById('acceptCookiesBtn');
+            const openLegalFromBannerBtn = document.getElementById('openLegalFromBanner');
+            const cookieWallOverlay = document.getElementById('cookie-wall-overlay'); // <-- Elemento del muro añadido
+
+            if (cookieBanner && acceptCookiesBtn && openLegalFromBannerBtn && cookieWallOverlay) {
+                // 1. Comprobar si el consentimiento ya se ha dado
+                // MODIFICADO: Se elimina la comprobación de 'cookieConsent' para que el banner aparezca siempre.
+                // if (localStorage.getItem('cookieConsent') !== 'true') {
+                    // Esperar un momento antes de mostrarlo para que no sea tan intrusivo
+                    setTimeout(() => {
+                        cookieBanner.classList.remove('hidden');
+                        cookieBanner.classList.add('opacity-100');
+                        cookieWallOverlay.classList.remove('hidden'); // <-- Mostrar muro
+                        cookieWallOverlay.classList.add('opacity-100'); // <-- Mostrar muro
+                    }, 1000); // 1 segundo de espera
+                // }
+
+                // 2. Acción al aceptar
+                acceptCookiesBtn.addEventListener('click', () => {
+                    localStorage.setItem('cookieConsent', 'true');
+                    cookieBanner.classList.add('opacity-0');
+                    cookieWallOverlay.classList.add('opacity-0'); // <-- Ocultar muro
+                    // Ocultar completamente después de la transición
+                    setTimeout(() => {
+                        cookieBanner.classList.add('hidden');
+                        cookieWallOverlay.classList.add('hidden'); // <-- Ocultar muro
+                    }, 300);
+                });
+
+                // 3. Abrir el modal legal desde el banner (reutiliza la función existente)
+                openLegalFromBannerBtn.addEventListener('click', openLegalModal);
+            }
+
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
